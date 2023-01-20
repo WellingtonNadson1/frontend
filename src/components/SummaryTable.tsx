@@ -1,9 +1,12 @@
-import { GenerateDatesFromYearBeginning } from "../util/generate-dates-from-year-beginning"
-import { HabitDay } from "./HabitDay"
+import { GenerateDatesFromYearBeginning } from "../util/generate-dates-from-year-beginning";
+import { HabitDay } from "./HabitDay";
 
 const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
 
 const summurayDates = GenerateDatesFromYearBeginning()
+
+const minimumSummuaryDateSize = 18 * 7;
+const amountOfDaysToFill = minimumSummuaryDateSize - summurayDates.length
 
 export function SummurayTable(){
   return (
@@ -21,6 +24,13 @@ export function SummurayTable(){
         {summurayDates.map(date =>{
           return (
             <HabitDay key={date.toString()}/>
+          )
+        })}
+
+        {amountOfDaysToFill > 0 && Array.from({ length: amountOfDaysToFill })
+        .map((_, i) => { 
+          return (
+            <div key={i} className="w-10 h-10 rounded-lg bg-zinc-900 border-2 border-zinc-800 opacity-40 cursor-not-allowed"></div>
           )
         })}
       </div>
