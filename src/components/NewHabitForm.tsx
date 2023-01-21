@@ -1,5 +1,6 @@
 import * as Checkbox from "@radix-ui/react-checkbox";
 import { Check } from "phosphor-react";
+import { FormEvent, useState } from "react";
 
 const weekDays = [
   "Domingo",
@@ -12,8 +13,27 @@ const weekDays = [
 ];
 
 export function NewHabitForm() {
+
+  const [title, setTitle] = useState('')
+  const [weekDayClick, setWeekDayClick] = useState<number[]>([])
+
+  function createNewHabit(event: FormEvent){
+    event.preventDefault();
+  }
+
+  function handleToggleWeekDay(weekDayClicked: number){
+    if (weekDayClick.includes(weekDayClicked)) {
+      const weekDaysWithRemovedOne = weekDayClick.filter(day => day !== weekDayClicked)
+
+      setWeekDayClick(weekDaysWithRemovedOne)
+    } else {
+      const weekDaysWithAddedOne = [...weekDayClick, weekDayClicked]
+      setWeekDayClick(weekDaysWithAddedOne)
+    }
+  }
+  
   return (
-    <form className="w-full flex flex-col mt-6">
+    <form onSubmit={createNewHabit} className="w-full flex flex-col mt-6">
       <label htmlFor="title" className="font-semibold leading-tight">
         Qual seu compromentimento?
       </label>
@@ -24,17 +44,23 @@ export function NewHabitForm() {
         placeholder="ex.: Exercícios, dormir, estudar..."
         autoFocus
         className="p-4 rounded-lg mt-3 bg-zinc-800 text-white placeholder:text-zinc-400"
+        onChange={event => setTitle(event.target.value)}
       />
 
       <label htmlFor="" className="font-semibold leading-tight mt-4">
         Qual a recorrência?
       </label>
+
+      {/* Check Box */}
       <div className="flex flex-col gap-2 mt-3">
-        {weekDays.map((weekDay) => {
+        {weekDays.map((weekDay, index) => {
           return (
             <Checkbox.Root
               key={weekDay}
               className="flex items-center gap-3 group"
+              onCheckedChange={() => {
+                handleToggleWeekDay(index)
+              }}
             >
               <div className="h-8 w-8 rounded-lg flex items-center justify-center bg-zinc-900 border-2 border-zinc-800 group-data-[state=checked]:bg-green-500">
                 <Checkbox.Indicator>
