@@ -13,25 +13,26 @@ const weekDays = [
 ];
 
 export function NewHabitForm() {
+  const [title, setTitle] = useState("");
+  const [weekDayClick, setWeekDayClick] = useState<number[]>([]);
 
-  const [title, setTitle] = useState('')
-  const [weekDayClick, setWeekDayClick] = useState<number[]>([])
-
-  function createNewHabit(event: FormEvent){
+  function createNewHabit(event: FormEvent) {
     event.preventDefault();
   }
 
-  function handleToggleWeekDay(weekDayClicked: number){
+  function handleToggleWeekDay(weekDayClicked: number) {
     if (weekDayClick.includes(weekDayClicked)) {
-      const weekDaysWithRemovedOne = weekDayClick.filter(day => day !== weekDayClicked)
+      const weekDaysWithRemovedOne = weekDayClick.filter(
+        (day) => day !== weekDayClicked
+      );
 
-      setWeekDayClick(weekDaysWithRemovedOne)
+      setWeekDayClick(weekDaysWithRemovedOne);
     } else {
-      const weekDaysWithAddedOne = [...weekDayClick, weekDayClicked]
-      setWeekDayClick(weekDaysWithAddedOne)
+      const weekDaysWithAddedOne = [...weekDayClick, weekDayClicked];
+      setWeekDayClick(weekDaysWithAddedOne);
     }
   }
-  
+
   return (
     <form onSubmit={createNewHabit} className="w-full flex flex-col mt-6">
       <label htmlFor="title" className="font-semibold leading-tight">
@@ -44,7 +45,7 @@ export function NewHabitForm() {
         placeholder="ex.: Exercícios, dormir, estudar..."
         autoFocus
         className="p-4 rounded-lg mt-3 bg-zinc-800 text-white placeholder:text-zinc-400"
-        onChange={event => setTitle(event.target.value)}
+        onChange={(event) => setTitle(event.target.value)}
       />
 
       <label htmlFor="" className="font-semibold leading-tight mt-4">
@@ -59,7 +60,7 @@ export function NewHabitForm() {
               key={weekDay}
               className="flex items-center gap-3 group"
               onCheckedChange={() => {
-                handleToggleWeekDay(index)
+                handleToggleWeekDay(index);
               }}
             >
               <div className="h-8 w-8 rounded-lg flex items-center justify-center bg-zinc-900 border-2 border-zinc-800 group-data-[state=checked]:bg-green-500">
