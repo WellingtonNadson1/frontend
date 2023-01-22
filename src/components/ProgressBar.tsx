@@ -7,7 +7,7 @@ export function ProgressBar(props: ProgressBarProps) {
   };
   return (
     <div className="h-3 rounded-xl bg-zinc-300 w-full mt-4">
-      <div className="h-3 rounded-xl bg-violet-600" style={progressStyles} />
+      <div className="h-3 rounded-xl bg-violet-600 transition-all" style={progressStyles} />
     </div>
   );
 }

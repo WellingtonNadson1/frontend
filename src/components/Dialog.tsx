@@ -7,7 +7,7 @@ export function DialogNewHabit() {
     <Dialog.Root>
       <Dialog.DialogTrigger
         type="button"
-        className="font-semibold rounded-lg border border-violet-500 px-6 py-4 flex justify-between items-center gap-3 hover:border-violet-300"
+        className="font-semibold rounded-lg border border-violet-500 px-6 py-4 flex justify-between items-center gap-3 hover:border-violet-300 transition-colors"
       >
         <Plus size={20} className="text-violet-500" />
         Novo Hábito

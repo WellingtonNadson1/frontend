@@ -1,24 +1,30 @@
 import * as Popover from "@radix-ui/react-popover";
 import clsx from "clsx";
 import dayjs from "dayjs";
+import { useState } from "react";
 import { HabitsList } from "./HabitsList";
 import { ProgressBar } from "./ProgressBar";
 
 type HabitDayProgress = {
   date: Date
-  completed?: number
+  defaultCompleted?: number
   amount?: number
 }
 
-export function HabitDay({completed = 0, amount = 0, date}: HabitDayProgress) {
+export function HabitDay({defaultCompleted = 0, amount = 0, date}: HabitDayProgress) {
+  const [completed, setCompleted] = useState(defaultCompleted)
   const completedPorcentage = amount > 0 ? Math.round((completed / amount) * 100) : 0;
 
   const dayAndMounth = dayjs(date).format('DD/MM')
   const dayOfWeek = dayjs(date).format('dddd')
+
+  function handleCompletedChanged(completed: number){
+    setCompleted(completed)
+  }
   
   return (
     <Popover.Root>
-      <Popover.Trigger className={clsx("w-10 h-10 rounded-lg bg-zinc-900 border-2 border-zinc-800", {
+      <Popover.Trigger className={clsx("w-10 h-10 rounded-lg bg-zinc-900 border-2 border-zinc-800 transition-colors", {
         'bg-zinc-900 border-zinc-800': completedPorcentage === 0,
         'bg-violet-900 border-violet-700': completedPorcentage > 0 && completedPorcentage < 20,
         'bg-violet-800 border-violet-500': completedPorcentage >= 20 && completedPorcentage < 40,
@@ -34,7 +40,7 @@ export function HabitDay({completed = 0, amount = 0, date}: HabitDayProgress) {
             {dayAndMounth}
           </span>
           <ProgressBar progress={completedPorcentage} />
-          <HabitsList date={date}/>
+          <HabitsList date={date} onCompletedChanged={handleCompletedChanged}/>
           <Popover.Arrow height={8} width={14} className="fill-zinc-900" />
         </Popover.Content>
       </Popover.Portal>
